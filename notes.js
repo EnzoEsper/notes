@@ -7,11 +7,13 @@ const getNotes = function() {
 // ADD NOTE FUNCTION
 const addNote = (title, body) => {
   const notes = loadNotes();
-  const duplicateNotes = notes.filter(note => {
-    note.title === title;
-  });
+  // const duplicateNotes = notes.filter(note => {
+  //   note.title === title;
+  // });
+  // refactoring the filter method with the find method
+  const duplicateNote = notes.find(note => note.title === title);
 
-  if (duplicateNotes.length === 0) {
+  if (!duplicateNote) {
     notes.push({
       title: title,
       body: body
@@ -38,6 +40,27 @@ const removeNote = title => {
   }
 };
 
+// LIST NOTES FUNCTION
+const listNotes = () => {
+  const notes = loadNotes();
+
+  notes.forEach(note => {
+    console.log(note.title);
+  });
+};
+
+const readNote = title => {
+  const notes = loadNotes();
+  const note = notes.find(note => note.title === title);
+
+  if (note) {
+    console.log(`Title: ${note.title}`);
+    console.log(`Body: ${note.body}`);
+  } else {
+    console.log("That note does not exists!");
+  }
+};
+
 // SAVE THE NOTES TO THE notes.json FILE
 const saveNotes = notes => {
   const dataJSON = JSON.stringify(notes);
@@ -58,5 +81,7 @@ const loadNotes = () => {
 module.exports = {
   getNotes: getNotes,
   addNote: addNote,
-  removeNote: removeNote
+  removeNote: removeNote,
+  listNotes: listNotes,
+  readNote: readNote
 };
